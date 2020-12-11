@@ -19,7 +19,7 @@ fn main() {
     let mut computer = IntCodeComputer::new(test_code);
     computer.run();
 
-    println!("{}", computer.get(0));
+    println!("{}", *computer.get(0).unwrap());
 
     let pairs = (0..99).cartesian_product(0..99);
     let mut answer = 0;
@@ -31,8 +31,8 @@ fn main() {
         let mut computer = IntCodeComputer::new(try_code);
         computer.run();
 
-        if computer.get(0) == 19690720 {
-            answer = computer.get(1) * 100 + computer.get(2);
+        if *computer.get(0).unwrap() == 19690720 {
+            answer = computer.get(1).unwrap() * 100 + computer.get(2).unwrap();
             break;
         }
     }
@@ -48,25 +48,25 @@ mod tests {
     fn test_add() {
         let mut computer = IntCodeComputer::new(vec![1, 0, 0, 0, 99]);
         computer.run();
-        assert_eq!(2, computer.get(0));
+        assert_eq!(2, *computer.get(0).unwrap());
     }
 
     #[test]
     fn test_multiply() {
         let mut computer = IntCodeComputer::new(vec![2, 3, 0, 3, 99]);
         computer.run();
-        assert_eq!(6, computer.get(3));
+        assert_eq!(6, *computer.get(3).unwrap());
     }
 
     #[test]
     fn test_intcode() {
         let mut computer = IntCodeComputer::new(vec![2, 4, 4, 5, 99, 0]);
         computer.run();
-        assert_eq!(9801, computer.get(5));
+        assert_eq!(9801, *computer.get(5).unwrap());
 
         let mut computer = IntCodeComputer::new(vec![1, 1, 1, 4, 99, 5, 6, 0, 99]);
         computer.run();
-        assert_eq!(30, computer.get(0));
-        assert_eq!(2, computer.get(4));
+        assert_eq!(30, *computer.get(0).unwrap());
+        assert_eq!(2, *computer.get(4).unwrap());
     }
 }
